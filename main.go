@@ -17,6 +17,11 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	url := *r.URL
 	parts := strings.SplitN(strings.TrimLeft(url.Path, "/"), "/", 3)
+	if len(parts) != 3 {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
 	url.Scheme = parts[0]
 	url.Host = parts[1]
 	url.Path = parts[2]
